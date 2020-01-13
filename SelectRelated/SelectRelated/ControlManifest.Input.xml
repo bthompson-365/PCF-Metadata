@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="hdn" constructor="SelectRelated" version="0.0.1" display-name-key="SelectRelated" description-key="SelectRelated description" control-type="standard">
+    <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
+     <property name="FormEntity" display-name-key="FormEntity" description-key="The name of the Entity this query will be displayed on" of-type="SingleLine.Text" usage="bound" required="true" />
+     <property name="QueryEntity" display-name-key="QuetryEntity" description-key="The name of the Entity being queried" of-type="SingleLine.Text" usage="bound" required="true" />
+   
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/AttributeList.css" order="1" />
+      <img path="img/DownArrowTransparent.png" />
+       <img path="img/DownArrowTransparent2.png" />
+   </resources>
+
+    <feature-usage>     
+      <uses-feature name="Utility" required="true" />
+    </feature-usage>
+ 
+  </control>
+</manifest>

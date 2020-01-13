@@ -1,0 +1,61 @@
+.hdnComboBox {
+    background: transparent;
+    border-style: none;
+    color: #000000;
+    font-size: 1.0rem;
+    font-weight: 600;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}
+
+.hdnComboBoxFocused {
+    background: transparent;
+    color: #000000;
+    font-size: 1.0rem;
+    height: 2.5rem;
+    line-height: 2.5rem; 
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: calc(1.6em + 1px);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    background: url('../img/DownArrowTransparent.png') no-repeat right #ddd;
+}
+
+.hdnComboBoxEnter {
+    background: transparent;
+    color: #000000;
+    font-size: 1.0rem;
+    height: 2.5rem;
+    line-height: 2.5rem; 
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: calc(1.6em + 1px);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    background: url('../img/DownArrowTransparent.png') no-repeat right #fff;
+}
+
+.select-wrapper {
+    position: relative;
+    
+    background-color: #ffffff;
+}
+
+select::-ms-expand {
+    display: none;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="hdn" constructor="MultipleAttributes" version="0.0.1" display-name-key="MultipleAttributes" description-key="MultipleAttributes description" control-type="standard">
+    <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="EntityName" display-name-key="EntityName" description-key="Entity Name  (for static values)" of-type="SingleLine.Text" usage="input" required="false" />  
+  
+    
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="css/hdnMultipleAttributes.css" order="1" />
+      <img path="img/DownArrowTransparent.png" />
+       <img path="img/DownArrowTransparent2.png" />
+     
+    </resources>
+  
+    <feature-usage>
+      
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  
+  </control>
+</manifest>
