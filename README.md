@@ -16,7 +16,7 @@ A drop down / select list that allows you to select an entity and store it's log
 Entity - *Required* Bound singleline text field  
 Display Name - *Optional* Bound singleline text field.
 
-![Entity Select Demo!](entity%20select.gif)
+![Entity Select Demo!](Entity%20Select.gif)
 
 **Select Attribute**
 
@@ -26,7 +26,7 @@ A drop down / select list that displays  and allows you to select an attribute f
 Attribute - *Required* Bound singleline text field  
 EntityName - Singleline text field input (usually set to the Select Entity field elsewhere on the form)
 
-![Attrbute Select Demo!](Lookup%20select.gif)
+![Attrbute Select Demo!](Lookup%20Select.gif)
 
 **Select Lookup**
 
