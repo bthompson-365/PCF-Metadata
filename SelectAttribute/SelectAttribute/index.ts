@@ -41,7 +41,6 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 		this.context=context;
 		let comboBoxContainer = document.createElement("div");
         comboBoxContainer.className = "select-wrapper";
-
         this.comboBoxControl = document.createElement("select");
         this.comboBoxControl.className = "hdnComboBox";
         this.comboBoxControl.addEventListener("change", this.onChange.bind(this));
@@ -49,30 +48,7 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
         this.comboBoxControl.addEventListener("mouseleave", this.onMouseLeave.bind(this));
 		this.comboBoxControl.addEventListener("click", this.onClick.bind(this));
         comboBoxContainer.appendChild(this.comboBoxControl);
-        container.appendChild(comboBoxContainer);
-		this.isDisabled=this.context.mode.isControlDisabled;
-      
-	}
-	private onChange(): void {
-        this.currentValue = this.comboBoxControl.value;
-        this.notifyOutputChanged();
-    }
-
-    private onMouseEnter(): void {
-        this.comboBoxControl.className = "hdnComboBoxFocused";
-    }
-
-    private onMouseLeave(): void {
-        this.comboBoxControl.className = "hdnComboBox";
-    }
-
-	private onClick(): void {
-		if (this.comboBoxControl.className="hdnComboBoxFocused"){
-		this.comboBoxControl.className = "hdnComboBoxClicked";
-		}
-		else {
-			this.comboBoxControl.className="hdnComboBoxFocused";
-		}
+        container.appendChild(comboBoxContainer);  
 	}
 	
 	/**
@@ -81,8 +57,7 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		
-		
+		this.isDisabled=this.context.mode.isControlDisabled;
 		var	entity=context.parameters.Entity.raw||"";
 		
 		if (entity!==this.entity && entity!==""){
@@ -95,11 +70,8 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 			}
 			// time to retrive the actual results from the system.
 			this.entity=entity ;		
-			this.populateComboBox(entity);
-			
+			this.populateComboBox(entity);	
 		}
-		
-		// Add code to update control view
 	}
 
 	/** 
@@ -122,6 +94,27 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 		// Add code to cleanup control if necessary
 	}
 
+	private onChange(): void {
+        this.currentValue = this.comboBoxControl.value;
+        this.notifyOutputChanged();
+    }
+
+    private onMouseEnter(): void {
+        this.comboBoxControl.className = "hdnComboBoxFocused";
+    }
+
+    private onMouseLeave(): void {
+        this.comboBoxControl.className = "hdnComboBox";
+    }
+
+	private onClick(): void {
+		if (this.comboBoxControl.className="hdnComboBoxFocused"){
+		this.comboBoxControl.className = "hdnComboBoxClicked";
+		}
+		else {
+			this.comboBoxControl.className="hdnComboBoxFocused";
+		}
+	}
 
 	private async populateComboBox(entity:string) {
 		let selectOption = document.createElement("option");
@@ -156,7 +149,6 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 			selectOption.value="";
 			this.comboBoxControl.add(selectOption);
 			
-
 			// add all the sorted records to the list.
 			for (let i = 0; i < options.length; i++) {
 				
@@ -173,11 +165,8 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 				this.comboBoxControl.add(selectOption);
 				
 			}
-		}
-		
-		this.comboBoxControl.disabled=this.isDisabled;
-		
-		
+		}		
+		this.comboBoxControl.disabled=this.isDisabled;		
 	}
 
 	private async getAttributes(entity: string):Promise<string> {

@@ -50,29 +50,9 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 		this.comboBoxControl.addEventListener("click", this.onClick.bind(this));
         comboBoxContainer.appendChild(this.comboBoxControl);
         container.appendChild(comboBoxContainer);
-		this.isDisabled=this.context.mode.isControlDisabled;
+		
 	}
-	private onChange(): void {
-        this.currentValue = this.comboBoxControl.value;
-        this.notifyOutputChanged();
-    }
-
-    private onMouseEnter(): void {
-        this.comboBoxControl.className = "hdnComboBoxFocused";
-    }
-
-    private onMouseLeave(): void {
-        this.comboBoxControl.className = "hdnComboBox";
-    }
-
-	private onClick(): void {
-		if (this.comboBoxControl.className="hdnComboBoxFocused"){
-		this.comboBoxControl.className = "hdnComboBoxClicked";
-		}
-		else {
-			this.comboBoxControl.className="hdnComboBoxFocused";
-		}
-	}
+	
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -80,6 +60,7 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
+		this.isDisabled=this.context.mode.isControlDisabled;
 		this.formEntity=context.parameters.FormEntity.raw || "";
 		var entity=context.parameters.QueryEntity.raw||"";
 		if (entity!==this.queryEntity && entity!==""){
@@ -186,10 +167,7 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 				
 			}
 		}
-		
-		this.comboBoxControl.disabled=this.isDisabled;
-		
-		
+		this.comboBoxControl.disabled=this.isDisabled;		
 	}
 
 	private async getEntities(entity: string):Promise<string> {
@@ -237,5 +215,26 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 		});
 	}
 
+	private onChange(): void {
+        this.currentValue = this.comboBoxControl.value;
+        this.notifyOutputChanged();
+    }
+
+    private onMouseEnter(): void {
+        this.comboBoxControl.className = "hdnComboBoxFocused";
+    }
+
+    private onMouseLeave(): void {
+        this.comboBoxControl.className = "hdnComboBox";
+    }
+
+	private onClick(): void {
+		if (this.comboBoxControl.className="hdnComboBoxFocused"){
+		this.comboBoxControl.className = "hdnComboBoxClicked";
+		}
+		else {
+			this.comboBoxControl.className="hdnComboBoxFocused";
+		}
+	}
 	
 }

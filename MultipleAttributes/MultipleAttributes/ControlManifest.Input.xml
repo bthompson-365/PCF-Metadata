@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   <control namespace="hdn" constructor="MultipleAttributes" version="0.0.1" display-name-key="MultipleAttributes" description-key="MultipleAttributes description" control-type="standard">
-    <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="Attribute" display-name-key="Attribute" description-key="Selected Attributes" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="EntityName" display-name-key="EntityName" description-key="Entity Name  (for static values)" of-type="SingleLine.Text" usage="input" required="false" />  
   
     

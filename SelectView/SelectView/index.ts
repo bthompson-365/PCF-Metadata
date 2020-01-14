@@ -35,14 +35,12 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
-		this.notifyOutputChanged = notifyOutputChanged;
-		
+		this.notifyOutputChanged = notifyOutputChanged;		
 		this.container=container;
 		this.baseUrl = (<any>context).page.getClientUrl();
 		this.context=context;
 		let comboBoxContainer = document.createElement("div");
         comboBoxContainer.className = "select-wrapper";
-
         this.comboBoxControl = document.createElement("select");
         this.comboBoxControl.className = "hdnComboBox";
         this.comboBoxControl.addEventListener("change", this.onChange.bind(this));
@@ -50,19 +48,9 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
         this.comboBoxControl.addEventListener("mouseleave", this.onMouseLeave.bind(this));
 		this.comboBoxControl.addEventListener("click", this.onClick.bind(this));
         comboBoxContainer.appendChild(this.comboBoxControl);
-        container.appendChild(comboBoxContainer);
-		this.isDisabled=this.context.mode.isControlDisabled;
-      
+        container.appendChild(comboBoxContainer);     
 	}
 
-	private onClick(): void {
-		if (this.comboBoxControl.className="hdnComboBoxFocused"){
-		this.comboBoxControl.className = "hdnComboBoxClicked";
-		}
-		else {
-			this.comboBoxControl.className="hdnComboBoxFocused";
-		}
-	}
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -70,9 +58,8 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		
-		var	entity=context.parameters.Entity.raw||"";
-		
+		this.isDisabled=this.context.mode.isControlDisabled;
+		var	entity=context.parameters.Entity.raw||"";	
 		if (entity!==this.entity && entity!==""){
 			if (this.firstRun){
 				this.currentValue=context.parameters.View.raw||"";
@@ -121,6 +108,15 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
         this.comboBoxControl.className = "hdnComboBox";
 	}
 	
+	private onClick(): void {
+		if (this.comboBoxControl.className="hdnComboBoxFocused"){
+			this.comboBoxControl.className = "hdnComboBoxClicked";
+		}
+		else {
+			this.comboBoxControl.className="hdnComboBoxFocused";
+		}
+	}
+
 	private async populateComboBox(entity:string) {
 		let selectOption = document.createElement("option");
 		if (entity!=""){
@@ -152,12 +148,10 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 			}
 
 			// add a top level empty option 
-
 			selectOption = document.createElement("option");
 			selectOption.innerHTML="";
 			selectOption.value="";
 			this.comboBoxControl.add(selectOption);
-		
 		
 			// add all the sorted records to the list.
 			for (let i = 0; i < options.length; i++) {
@@ -171,15 +165,10 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 						selectOption.selected = true;
 				//	valueWasChanged = false;
 				}
-
-				this.comboBoxControl.add(selectOption);
-				
+				this.comboBoxControl.add(selectOption);		
 			}
 		}
-		
-		this.comboBoxControl.disabled=this.isDisabled;
-		
-		
+		this.comboBoxControl.disabled=this.isDisabled;		
 	}
 
 	private async getViews(entity: string):Promise<string> {

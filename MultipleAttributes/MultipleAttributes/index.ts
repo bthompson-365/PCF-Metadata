@@ -36,14 +36,12 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
 		// Add control initialization code
-		this.notifyOutputChanged = notifyOutputChanged;
-		
+		this.notifyOutputChanged = notifyOutputChanged;	
 		this.container=container;
 		this.baseUrl = (<any>context).page.getClientUrl();
 		this.context=context;
 		var comboBoxContainer = document.createElement("div");
         comboBoxContainer.className = "select-wrapper";
-		comboBoxContainer.id=""
         this.resultDiv = document.createElement("div");
 		this.resultDiv.className = "hdnDiv";
 		this.resultDiv.id="resultDiv";
@@ -57,13 +55,55 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 		this.dropdownDiv.appendChild(this.selectContainer);
 		comboBoxContainer.appendChild(this.resultDiv);
 		comboBoxContainer.appendChild(this.dropdownDiv);
-        container.appendChild(comboBoxContainer);
-		this.isDisabled=this.context.mode.isControlDisabled;
-		
-      
+        container.appendChild(comboBoxContainer); 
 	}
+
+
+	/**
+	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+	 */
+	public updateView(context: ComponentFramework.Context<IInputs>): void
+	{
+		this.isDisabled=this.context.mode.isControlDisabled;
+		var	entity=context.parameters.EntityName.raw||"";	
+		if (entity!==this.entity && entity!==""){
+			if (this.firstRun){
+				this.currentValue=context.parameters.Attribute.raw||"";
+				this.firstRun=false;
+			}
+			else {
+				this.currentValue="";
+				this.currentValues=[];
+			}
+			// time to retrive the actual results from the system.
+			this.entity=entity ;		
+			this.populateComboBox(entity)	
+		}	
+	}
+
+	/** 
+	 * It is called by the framework prior to a control receiving new data. 
+	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
+	 */
+	public getOutputs(): IOutputs
+	{	
+		return {
+			Attribute:this.currentValue
+		}
+	}
+
+	/** 
+	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+	 * i.e. cancelling any pending remote calls, removing listeners, etc.
+	 */
+	public destroy(): void
+	{
+		// Add code to cleanup control if necessary
+	}
+
 	private onChange(): void {
-        //this.currentValue = this.dropDownControl.value;
+      
         this.notifyOutputChanged();
     }
 
@@ -99,24 +139,24 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 
 	private onSelectEnter(div:HTMLDivElement){
 		if (!this.context.mode.isControlDisabled){
-		div.className="hdnOptionSelected";
+			div.className="hdnOptionSelected";
 		}
 	}
 
 	private onSelectLeave(div:HTMLDivElement){
 		if (!this.context.mode.isControlDisabled){
-		var result:boolean=false;
-		var elements=div.getElementsByTagName("input");
-		if (elements.length>0){
-			var c=<HTMLInputElement>elements[0];
-			if (c!==undefined && c.checked){
-				result=true;
-			}
+			var result:boolean=false;
+			var elements=div.getElementsByTagName("input");
+			if (elements.length>0){
+				var c=<HTMLInputElement>elements[0];
+				if (c!==undefined && c.checked){
+					result=true;
+				}
 
-		}
-		if (!result){
-			div.className="hdnOption";
-		}
+			}
+			if (!result){
+				div.className="hdnOption";
+			}
 		}
 	}
 
@@ -126,9 +166,7 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 			if (this.options[i].key==key){
 				option=this.options[i];
 			}
-
-		}
-		
+		}	
 		return option;
 	}
 
@@ -165,58 +203,6 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 			this.notifyOutputChanged();
 			}
 		}
-	}
-
-	/**
-	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{
-
-		
-		var	entity=context.parameters.EntityName.raw||"";
-		
-		if (entity!==this.entity && entity!==""){
-			if (this.firstRun){
-				this.currentValue=context.parameters.Attribute.raw||"";
-				this.firstRun=false;
-			}
-			else {
-				this.currentValue="";
-				
-			}
-			if (this.currentValue!=="" && this.currentValue.indexOf(", ")>0){
-				
-
-			}
-			// time to retrive the actual results from the system.
-			this.entity=entity ;		
-			this.populateComboBox(entity);
-			
-		}
-		
-		// Add code to update control view
-	}
-
-	/** 
-	 * It is called by the framework prior to a control receiving new data. 
-	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
-	 */
-	public getOutputs(): IOutputs
-	{	
-		return {
-			Attribute:this.currentValue
-		}
-	}
-
-	/** 
-	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-	 * i.e. cancelling any pending remote calls, removing listeners, etc.
-	 */
-	public destroy(): void
-	{
-		// Add code to cleanup control if necessary
 	}
 
 

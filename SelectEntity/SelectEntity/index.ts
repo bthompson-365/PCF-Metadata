@@ -51,7 +51,7 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 
         comboBoxContainer.appendChild(this.comboBoxControl);
         container.appendChild(comboBoxContainer);
-		this.isDisabled=this.context.mode.isControlDisabled;
+	
 	}
 
 
@@ -61,14 +61,12 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		
+		this.isDisabled=this.context.mode.isControlDisabled;
 		if (this.firstRun){
 			this.currentValue=context.parameters.logicalName.raw||"";
 			this.firstRun=false;
 			this.populateDropdown();
-		}
-		
-		
+		}		
 	}
 
 	/** 
@@ -80,8 +78,7 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 		return {
 			logicalName: this.currentValue,
 			displayName: this.displayValue
-			};
-		
+			};	
 	}
 
 	/** 
@@ -110,45 +107,43 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 
 		}
 	
-	// sort the items into alphabetical order by text.
-	options.sort((a, b) => a.text.localeCompare(b.text));
-	if (options.length==1){
-		this.currentValue=options[0].key;
-	}
+		// sort the items into alphabetical order by text.
+		options.sort((a, b) => a.text.localeCompare(b.text));
+		if (options.length==1){
+			this.currentValue=options[0].key;
+		}
 
-	// populate the select option box.
+		// populate the select option box.
 
-	// firstly remove all existing options.
-	for(var i = this.comboBoxControl.options.length - 1 ; i >= 0 ; i--)
-	{
-		this.comboBoxControl.remove(i);
-	}
-	
-	// add a top level empty option in case it's needed
-	if (this.currentValue==null || this.currentValue==""){
+		// firstly remove all existing options.
+		for(var i = this.comboBoxControl.options.length - 1 ; i >= 0 ; i--)
+		{
+			this.comboBoxControl.remove(i);
+		}
+		
+		// add a top level empty option in case it's needed
+		
 		selectOption = document.createElement("option");
 		selectOption.innerHTML="";
 		selectOption.value="";
 		this.comboBoxControl.add(selectOption);
-	}
-	
-	// add all the sorted records to the list.
-	for (let i = 0; i < options.length; i++) {
 		
-		selectOption = document.createElement("option");
-		selectOption.innerHTML = options[i].text;
-		selectOption.value = options[i].key;
+		// add all the sorted records to the list.
+		for (let i = 0; i < options.length; i++) {
+			
+			selectOption = document.createElement("option");
+			selectOption.innerHTML = options[i].text;
+			selectOption.value = options[i].key;
 
-		if (this.currentValue != null &&
-			this.currentValue === options[i].key) {
-				selectOption.selected = true;
-		//	valueWasChanged = false;
+			if (this.currentValue != null &&
+				this.currentValue === options[i].key) {
+					selectOption.selected = true;
+			//	valueWasChanged = false;
+			}
+
+			this.comboBoxControl.add(selectOption);			
 		}
-
-		this.comboBoxControl.add(selectOption);
-		
-	}
-		
+		this.comboBoxControl.disabled=this.isDisabled;	
 	}
 
 	private async getEntities():Promise<string> {
