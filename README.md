@@ -1,5 +1,3 @@
-# PCF-Metadata
-<<<<<<< HEAD
 A set of PCF (Power Component Framework) controls to provide user friendly access to Powerplatform metadata.
 
 The solution contains the following controls
@@ -18,6 +16,8 @@ A drop down / select list that allows you to select an entity and store it's log
 Entity - *Required* Bound singleline text field  
 Display Name - *Optional* Bound singleline text field.
 
+![Entity Select Demo!](entity%20select.gif)
+
 **Select Attribute**
 
 A drop down / select list that displays  and allows you to select an attribute from the specified entity. The control stores the logical name of the field / attribute and displays it in a user friendly format *Display Name (logical name)*.
@@ -26,6 +26,7 @@ A drop down / select list that displays  and allows you to select an attribute f
 Attribute - *Required* Bound singleline text field  
 EntityName - Singleline text field input (usually set to the Select Entity field elsewhere on the form)
 
+![Attrbute Select Demo!](Lookup%20select.gif)
 
 **Select Lookup**
 
@@ -49,6 +50,8 @@ A drop down / select list that provides a multiselect combo box where you can se
 2 properties:-  
 Attribute - *Required* Bound singleline text field  
 EntityName - Singleline text field input (usually set to the Select Entity field elsewhere on the form)
+
+![Multiple Attribute Select Demo!](multiselect.gif)
 
 **Select Related**
 
@@ -83,7 +86,7 @@ and
 ~~~
 to clear the error
 
-To access it ensure 
+To access the error handling just enable the following in the ControlManifest file 
 
 ~~~
    <feature-usage>    
@@ -91,5 +94,3 @@ To access it ensure
     </feature-usage>
 ~~~
 
-is enabled within the ControlManifest file.
->>>>>>> a427c40731e422c823c7fc47089aea82b6dbcb82
