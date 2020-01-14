@@ -1,12 +1,15 @@
-A set of PCF (Power Component Framework) controls to provide user friendly access to Powerplatform metadata.
+<h2>Metadata PCF library</h3>
 
-The solution contains the following controls
+<h3>Summary</h3>
+This is a set of PCF (Power Component Framework) controls to provide user friendly access to Powerplatform metadata allowing you to easily select entities, attributes, lookup values and views and store them in standard PowerApp text fields for use elsewhere.
 
-Select
-=======
-A set of PCF (Power Component Framework) controls to provide user friendly access to Power platform metadata for set up and configuration purposes.
+There were built to improve and remove the complex javascript that we used to need on the administration forms that we use across a number of our solutions and are shared here to ensure other people do not need to waste time rewriting similar logic.
 
+If you do not wish to compile the controls manually you can download an [unmanaged solution](./MetaDataSelectPCF_1_0_0_1.zip)
+
+<h3> The controls</h3>
 The solution contains the following controls:-
+
 
 **Select Entity**
 
