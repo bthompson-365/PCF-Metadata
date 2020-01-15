@@ -18,7 +18,7 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 	private isDisabled:boolean;
 	private comboBoxControl: HTMLSelectElement;
 	private displayValue:string ="";
-	
+
 	constructor()
 	{
 
@@ -61,11 +61,13 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
+		var activities=context.parameters.activitiesOnly.raw || "";
+		
 		this.isDisabled=this.context.mode.isControlDisabled;
 		if (this.firstRun){
 			this.currentValue=context.parameters.logicalName.raw||"";
 			this.firstRun=false;
-			this.populateDropdown();
+			this.populateDropdown(activities);
 		}		
 	}
 
@@ -90,10 +92,10 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 		// Add code to cleanup control if necessary
 	}
 
-	private async populateDropdown() {
+	private async populateDropdown(showActivities: string) {
 
 		let selectOption = document.createElement("option");
-		var a = await this.getEntities();
+		var a = await this.getEntities(showActivities);
 		var result = JSON.parse(a);
 		var options: IDropdownOption[]=[];
 		
@@ -146,13 +148,16 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 		this.comboBoxControl.disabled=this.isDisabled;	
 	}
 
-	private async getEntities():Promise<string> {
+	private async getEntities(showActivities: string):Promise<string> {
 		var req = new XMLHttpRequest();
 		var baseUrl=this.baseUrl;
-		
-		return new Promise(function (resolve, reject) {
 
-			req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions?$select=LogicalName,DisplayName&$filter=IsValidForAdvancedFind%20eq%20true%20and%20IsCustomizable/Value%20eq%20true", true);
+		return new Promise(function (resolve, reject) {
+			var filter="IsValidForAdvancedFind%20eq%20true%20and%20IsCustomizable/Value%20eq%20true";
+			if (showActivities!==""){
+				filter=filter+"%20and%20IsActivity%20eq%20true"
+			}
+			req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions?$select=LogicalName,DisplayName&$filter="+filter, true);
 			req.onreadystatechange = function () {
 				
 				if (req.readyState !== 4) return;

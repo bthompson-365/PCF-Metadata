@@ -4,7 +4,9 @@
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="logicalName" display-name-key="logicalName" description-key="Logical Name" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="displayName" display-name-key="displayName" description-key="Display Name" of-type="SingleLine.Text" usage="bound" required="false" />
-    
+     <property name="activitiesOnly" display-name-key="ActivitiesOnly" description-key="Show only activity entities (if this field contains text)" of-type="SingleLine.Text" usage="input" required="false" />
+
+
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/AttributeList.css" order="1" />
