@@ -46,6 +46,14 @@ A drop down / select list that displays and allows you to select a view  from th
 Attribute - *Required* Bound singleline text field  
 EntityName - Singleline text field input (usually set to the Select Entity field elsewhere on the form)
 
+**Select Form**
+
+A drop down / select form that displays and allows you to select a form of the specified entity. The control stores the Guid value of the Form and displays the Form's name.
+ 
+2 properties:-  
+Form - *Required* Bound singleline text field  
+EntityName - Singleline text field input (usually set to the Select Entity field elsewhere on the form)
+
 **Multiple Attributes**
 
 A drop down / select list that provides a multiselect combo box where you can select multiple attributes from the specified entity. The control stores the logical name of the selected attributes in a comma seperated list and displays them in a user friendly format *Display Name (logical name)*.
