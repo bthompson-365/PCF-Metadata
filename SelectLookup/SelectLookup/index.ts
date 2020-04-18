@@ -123,14 +123,14 @@ export class SelectLookup implements ComponentFramework.StandardControl<IInputs,
 
 	private async populateComboBox(entity:string) {
 		let selectOption = document.createElement("option");
-		if (entity!=""){
+		if (entity!==""){
 			var a = await this.getEntities(entity);
 			var result = JSON.parse(a);
 			var options: IDropdownOption[]=[];
 			// format all the options into a usable record
 			for (var i = 0; i < result.value.length; i++) {
 				
-				if (result.value[i].DisplayName != null && result.value[i].DisplayName.UserLocalizedLabel != null) {
+				if (result.value[i].DisplayName !== null && result.value[i].DisplayName.UserLocalizedLabel !== null) {
 					var text = result.value[i].DisplayName.UserLocalizedLabel.Label + " (" + result.value[i].LogicalName + ")";
 					var option: IDropdownOption = { key: result.value[i].LogicalName, text: text }
 					options.push(option);
@@ -163,7 +163,7 @@ export class SelectLookup implements ComponentFramework.StandardControl<IInputs,
 				selectOption.innerHTML = options[i].text;
 				selectOption.value = options[i].key;
 
-				if (this.currentValue != null &&
+				if (this.currentValue !== null &&
 					this.currentValue === options[i].key) {
 						selectOption.selected = true;
 				//	valueWasChanged = false;

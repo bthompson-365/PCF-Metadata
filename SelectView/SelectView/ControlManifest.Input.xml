@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="SelectView" version="0.0.1" display-name-key="SelectView" description-key="SelectView description" control-type="standard">
+  <control namespace="hdn" constructor="SelectView" version="0.0.1" display-name-key="Select View" description-key="A Select field to allow the selection of a View" control-type="standard">
     <property name="View" display-name-key="View" description-key="View" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="Entity" display-name-key="Entity" description-key="The Entity of the views you wish to select" of-type="SingleLine.Text" usage="input" required="false" />  
+    <property name="Entity" display-name-key="Entity" description-key="The Entity of the views you wish to select" of-type="SingleLine.Text" usage="input" required="true" />  
     
     <resources>
       <code path="index.ts" order="1"/>

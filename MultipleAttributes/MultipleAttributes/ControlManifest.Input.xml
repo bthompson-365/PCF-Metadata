@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="MultipleAttributes" version="0.0.1" display-name-key="MultipleAttributes" description-key="MultipleAttributes description" control-type="standard">
+  <control namespace="hdn" constructor="MultipleAttributes" version="0.0.1" display-name-key="Multiple Attributes" description-key="A Multiselect Entity Attributes Metadata Option Set" control-type="standard">
     <property name="Attribute" display-name-key="Attribute" description-key="Selected Attributes" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="EntityName" display-name-key="EntityName" description-key="Entity Name  (for static values)" of-type="SingleLine.Text" usage="input" required="false" />  
+    <property name="EntityName" display-name-key="Entity Name" description-key="The logical name of the Entity we are selecting the attributes of." of-type="SingleLine.Text" usage="input" required="true" />  
   
     
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/hdnMultipleAttributes.css" order="1" />
       <img path="img/DownArrowTransparent.png" />
-       <img path="img/DownArrowTransparent2.png" />
-     
+      <img path="img/DownArrowTransparent2.png" />
     </resources>
-  
     <feature-usage>
-      
       <uses-feature name="Utility" required="true" />
       <uses-feature name="WebAPI" required="true" />
     </feature-usage>
-  
   </control>
 </manifest>

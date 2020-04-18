@@ -117,17 +117,18 @@ export class SelectForm implements ComponentFramework.StandardControl<IInputs, I
 
 	private async populateComboBox(entity:string) {
 		let selectOption = document.createElement("option");
-		if (entity!=""){
+		if (entity!==""){
 			var a = await this.getViews(entity);
+
 			var result = JSON.parse(a);
 			var options: IDropdownOption[]=[];
 			// format all the options into a usable record
 			
 			for (i = 0; i < result.value.length; i++) {
-				if (result.value[i].name != null ) {
+				if (result.value[i].name !== null ) {
 					
 					var option = {
-					key: result.value[i].name + " (" + result.value[i].savedqueryid + ")",
+					key: result.value[i].name + " (" + result.value[i].formid + ")",
 					text: result.value[i].name
 					};
 					options.push(option);
@@ -144,7 +145,7 @@ export class SelectForm implements ComponentFramework.StandardControl<IInputs, I
 			{
 				this.comboBoxControl.remove(i);
 			}
-
+			
 			// add a top level empty option 
 			selectOption = document.createElement("option");
 			selectOption.innerHTML="";
@@ -158,7 +159,7 @@ export class SelectForm implements ComponentFramework.StandardControl<IInputs, I
 				selectOption.innerHTML = options[i].text;
 				selectOption.value = options[i].key;
 
-				if (this.currentValue != null &&
+				if (this.currentValue !== null &&
 					this.currentValue === options[i].key) {
 						selectOption.selected = true;
 				//	valueWasChanged = false;

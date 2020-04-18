@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="SelectEntity" version="2.0.1" display-name-key="Select Entity" description-key="A dropdown box to select an Entity " control-type="standard">
-    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="logicalName" display-name-key="Entity Logical / Schema Name" description-key="The logical / schema name of the Entity" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="displayName" display-name-key="Entity Display Name" description-key="The display name of the Entity" of-type="SingleLine.Text" usage="bound" required="false" />
-
+  <control namespace="hdn" constructor="MultipleEntities" version="1.0.1" display-name-key="Multiple Entities" description-key="Control for selecting Multiple Entities via an option set" control-type="standard">
+    <property name="EntityNames" display-name-key="Entity Names" description-key="The names of the Entities that are selected" of-type="SingleLine.Text"  usage="bound" required="true" />  
 <property name="activitiesOnly" display-name-key="Activities Only" description-key="Restricts the list to just Activity Entities" of-type="Enum" usage="input" required="true">
       <value name="No" display-name-key="All Entities" description-key="All Entities" default="true">All</value>
       <value name="Yes" display-name-key="Activities only" description-key="Activity Entities" >Activity Entities Only</value>     
@@ -14,14 +11,15 @@
       <value name="No" display-name-key="All Entities" description-key="All Entities" default="true">All</value>
       <value name="Yes" display-name-key="Only Entities that allow Activities" description-key="Entities with Activities" >Entities that allow Activities</value>
 </property>
-
     <resources>
       <code path="index.ts" order="1"/>
-      <css path="css/AttributeList.css" order="1" />
+      <css path="css/hdnMultipleAttributes.css" order="1" />
       <img path="img/DownArrowTransparent.png" />
       <img path="img/DownArrowTransparent2.png" />
-      
     </resources>
-    
+    <feature-usage>  
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
   </control>
 </manifest>

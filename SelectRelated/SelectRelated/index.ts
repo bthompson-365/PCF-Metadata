@@ -102,17 +102,17 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 
 	private async populateComboBox(queryEntity:string, formEntity:string) {
 		let selectOption = document.createElement("option");
-		if (queryEntity!="" && formEntity!=""){
+		if (queryEntity!=="" && formEntity!==""){
 			var a = await this.getEntities(queryEntity);
 			var result = JSON.parse(a);
 			var options: IDropdownOption[]=[];
 			// format all the options into a usable record
 			for (var i = 0; i < result.value.length; i++) {
 				
-				if (result.value[i].DisplayName != null && result.value[i].DisplayName.UserLocalizedLabel != null) {
-					if (result.value[i].Targets!==null && result.value[i].Targets!==undefined){
+				if (result.value[i].DisplayName !== null && result.value[i].DisplayName.UserLocalizedLabel !== null) {
+					if (result.value[i].Targets!==null && typeof(result.value[i].Targets)!=="undefined"){
 						for (var j=0; j < result.value[i].Targets.length; j++){
-							if (result.value[i].Targets[j]==formEntity){
+							if (result.value[i].Targets[j]===formEntity){
 								var text = result.value[i].DisplayName.UserLocalizedLabel.Label + " (" + result.value[i].LogicalName + ")";
 								var option: IDropdownOption = { key: result.value[i].LogicalName, text: text }
 								options.push(option);
@@ -123,10 +123,10 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 			}
 			// sort the items into alphabetical order by text.
 			options.sort((a, b) => a.text.localeCompare(b.text));
-			if (options.length==1){
+			if (options.length===1){
 				this.currentValue=options[0].key;
 			}
-			if (options.length==0){
+			if (options.length===0){
 				(<any>this.context.utils).setNotification("No relationship between selected Query ("+ this.queryEntity +") and Form ("+ this.formEntity +") entities.","123")
 				
 			}
@@ -143,7 +143,7 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 			}
 			
 			// add a top level empty option in case it's needed
-			if (this.currentValue==null || this.currentValue==""){
+			if (this.currentValue===null || this.currentValue===""){
 				selectOption = document.createElement("option");
 				selectOption.innerHTML="";
 				selectOption.value="";
@@ -157,7 +157,7 @@ export class SelectRelated implements ComponentFramework.StandardControl<IInputs
 				selectOption.innerHTML = options[i].text;
 				selectOption.value = options[i].key;
 
-				if (this.currentValue != null &&
+				if (this.currentValue !== null &&
 					this.currentValue === options[i].key) {
 						selectOption.selected = true;
 				//	valueWasChanged = false;

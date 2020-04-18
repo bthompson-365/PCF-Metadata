@@ -1,16 +1,8 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import { threadId } from "worker_threads";
 interface IMultipleOption{
 	key:string, text:string, checked:boolean
 }
-export class MultipleAttributes implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-	/**
-	 * Empty constructor.
-	 */
-	constructor()
-	{
-
-	}
+export class MultipleEntities implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	private notifyOutputChanged: () => void;
 	private currentValue: string | undefined;
 	private dropdownDiv:HTMLDivElement;
@@ -25,6 +17,14 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 	dropdown:boolean=false;
 	currentValues:IMultipleOption[]=[];
 	private resultDiv: HTMLDivElement;
+	/**
+	 * Empty constructor.
+	 */
+	constructor()
+	{
+
+	}
+
 	/**
 	 * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
 	 * Data-set values are not initialized here, use updateView.
@@ -65,21 +65,14 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
+		var activities=context.parameters.activitiesOnly.raw || "";
+		var supportsActivities=context.parameters.supportsActivities.raw||"";
 		this.isDisabled=this.context.mode.isControlDisabled;
-		var	entity=context.parameters.EntityName.raw||"";	
-		if (entity!==this.entity && entity!==""){
-			if (this.firstRun){
-				this.currentValue=context.parameters.Attribute.raw||"";
-				this.firstRun=false;
-			}
-			else {
-				this.currentValue="";
-				this.currentValues=[];
-			}
-			// time to retrive the actual results from the system.
-			this.entity=entity ;		
-			this.populateComboBox(entity)	
-		}	
+		if (this.firstRun){
+			this.currentValue=context.parameters.EntityNames.raw||"";
+			this.firstRun=false;
+			this.populateComboBox(activities,supportsActivities);
+		}		
 	}
 
 	/** 
@@ -87,76 +80,9 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs
-	{	
-		return {
-			Attribute:this.currentValue
-		}
-	}
-
-	/** 
-	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-	 * i.e. cancelling any pending remote calls, removing listeners, etc.
-	 */
-	public destroy(): void
 	{
-		// Add code to cleanup control if necessary
-	}
-
-	private onChange(): void {
-      
-        this.notifyOutputChanged();
-    }
-
-	private onClick(): void{
-		if (!this.context.mode.isControlDisabled){
-			this.resultDiv.className="hdnDivClick";
-			var width=+this.resultDiv.clientWidth;
-			this.dropdownDiv.style.width=(width-2)+"px";
-			if (this.selectContainer.hasChildNodes()){
-				this.dropdown=!this.dropdown;
-				if (this.dropdown){
-					this.dropdownDiv.className="hdnDropdownShow";
-				}
-				else {
-					this.resultDiv.className="hdnDivFocused";
-					this.dropdownDiv.className="hdnDropdown";
-				}
-			}
-		}
-	}
-
-    private onMouseEnter(): void {
-		if (this.resultDiv.className==="hdnDiv"){
-    	    this.resultDiv.className = "hdnDivFocused";
-		}
-}
-
-    private onMouseLeave(): void {
-		this.resultDiv.className = "hdnDiv";
-		this.dropdown=false;
-		this.dropdownDiv.className="hdnDropdown";
-    }
-
-	private onSelectEnter(div:HTMLDivElement){
-		if (!this.context.mode.isControlDisabled){
-			div.className="hdnOptionSelected";
-		}
-	}
-
-	private onSelectLeave(div:HTMLDivElement){
-		if (!this.context.mode.isControlDisabled){
-			var result:boolean=false;
-			var elements=div.getElementsByTagName("input");
-			if (elements.length>0){
-				var c=<HTMLInputElement>elements[0];
-				if (typeof(c)!=="undefined" && c.checked){
-					result=true;
-				}
-
-			}
-			if (!result){
-				div.className="hdnOption";
-			}
+		return {
+			EntityNames:this.currentValue
 		}
 	}
 
@@ -170,57 +96,18 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 		return option;
 	}
 
-	private onSelectClick(div:HTMLDivElement){
-		if (!this.context.mode.isControlDisabled){
-			var elements=div.getElementsByTagName("input");
-			if (elements.length>0){
-				var c=<HTMLInputElement>elements[0];
-				if (typeof(c)!=="undefined"){ 
-					c.checked=!c.checked;
 
-				}
-				var item=this.findOption(c.value);
-				if (item.key!==""){
-				if (c.checked){
-					item.checked=true;
-					this.currentValues.push(item);
-					div.className="hdnOptionSelected";
-				} else {
-					var id=-1;
-					for (var i=0; i<this.currentValues.length; i++){
-						if (this.currentValues[i].key===item.key){
-							id=i;
-						}
-					}	
-					if (id>-1){
-						this.currentValues.splice( id,1);
-					}
-					// change font to emphasis that it has been clicked
-					div.className="hdnOption";
-				}
-			}
-			this.currentValues.sort((a, b) => a.text.localeCompare(b.text));
-			var string="";
-			this.currentValue="";
-			for (var i=0; i<this.currentValues.length; i++){
-				string=string+this.currentValues[i].text+", ";
-				this.currentValue=this.currentValue+this.currentValues[i].key+", ";
-			}
-			this.resultDiv.innerHTML=string.slice(0,-2);
-			this.currentValue=this.currentValue.slice(0,-2);
-			this.notifyOutputChanged();
-			}
-		}
-	}
-
-
-	private async populateComboBox(entity:string) {
+	private async populateComboBox(onlyActivities: string, supportsActivities:string) {
 
 		let optionDiv = document.createElement("div");
-		if (entity!==""){
-			var a = await this.getAttributes(entity);
-			var result = JSON.parse(a);
-			var options: IMultipleOption[]=[];
+		
+		var a = await this.getEntities(onlyActivities,supportsActivities);
+		
+		var result = JSON.parse(a);
+		var options: IMultipleOption[]=[];
+
+
+
 			var selectedItems:string[]=[];
 			if (this.currentValue!=="" && typeof(this.currentValue)!=="undefined"){
 				selectedItems=this.currentValue.split(", ");
@@ -293,7 +180,7 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 				this.selectContainer.appendChild(optionDiv);
 				
 			}
-		}
+		
 		
 		//this.dropDownControl.disabled=this.isDisabled;
 		var string="";
@@ -307,12 +194,123 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 		
 	}
 
-	private async getAttributes(entity: string):Promise<string> {
+	private onSelectEnter(div:HTMLDivElement){
+		if (!this.context.mode.isControlDisabled){
+			div.className="hdnOptionSelected";
+		}
+	}
+
+	private onSelectLeave(div:HTMLDivElement){
+		if (!this.context.mode.isControlDisabled){
+			var result:boolean=false;
+			var elements=div.getElementsByTagName("input");
+			if (elements.length>0){
+				var c=<HTMLInputElement>elements[0];
+				if (typeof(c)!=="undefined" && c.checked){
+					result=true;
+				}
+
+			}
+			if (!result){
+				div.className="hdnOption";
+			}
+		}
+	}
+
+	private onSelectClick(div:HTMLDivElement){
+		if (!this.context.mode.isControlDisabled){
+			var elements=div.getElementsByTagName("input");
+			if (elements.length>0){
+				var c=<HTMLInputElement>elements[0];
+				if (typeof(c)!=="undefined"){ 
+					c.checked=!c.checked;
+
+				}
+				var item=this.findOption(c.value);
+				if (item.key!==""){
+				if (c.checked){
+					item.checked=true;
+					this.currentValues.push(item);
+					div.className="hdnOptionSelected";
+				} else {
+					var id=-1;
+					for (var i=0; i<this.currentValues.length; i++){
+						if (this.currentValues[i].key===item.key){
+							id=i;
+						}
+					}	
+					if (id>-1){
+						this.currentValues.splice( id,1);
+					}
+					// change font to emphasis that it has been clicked
+					div.className="hdnOption";
+				}
+			}
+			this.currentValues.sort((a, b) => a.text.localeCompare(b.text));
+			var string="";
+			this.currentValue="";
+			for (var i=0; i<this.currentValues.length; i++){
+				string=string+this.currentValues[i].text+", ";
+				this.currentValue=this.currentValue+this.currentValues[i].key+", ";
+			}
+			this.resultDiv.innerHTML=string.slice(0,-2);
+			this.currentValue=this.currentValue.slice(0,-2);
+			this.notifyOutputChanged();
+			}
+		}
+	}
+
+	private onClick(): void{
+		if (!this.context.mode.isControlDisabled){
+			this.resultDiv.className="hdnDivClick";
+			var width=+this.resultDiv.clientWidth;
+			this.dropdownDiv.style.width=(width-2)+"px";
+			if (this.selectContainer.hasChildNodes()){
+				this.dropdown=!this.dropdown;
+				if (this.dropdown){
+					this.dropdownDiv.className="hdnDropdownShow";
+				}
+				else {
+					this.resultDiv.className="hdnDivFocused";
+					this.dropdownDiv.className="hdnDropdown";
+				}
+			}
+		}
+	}
+
+    private onMouseEnter(): void {
+		if (this.resultDiv.className==="hdnDiv"){
+    	    this.resultDiv.className = "hdnDivFocused";
+		}
+}
+
+    private onMouseLeave(): void {
+		this.resultDiv.className = "hdnDiv";
+		this.dropdown=false;
+		this.dropdownDiv.className="hdnDropdown";
+    }
+	/** 
+	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+	 * i.e. cancelling any pending remote calls, removing listeners, etc.
+	 */
+	public destroy(): void
+	{
+		// Add code to cleanup control if necessary
+	}
+
+	private async getEntities(onlyActivities: string, supportsActivities:string):Promise<string> {
 		var req = new XMLHttpRequest();
 		var baseUrl=this.baseUrl;
-		return new Promise(function (resolve, reject) {
 
-			req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions(LogicalName='"+entity+"')/Attributes?$select=LogicalName,DisplayName,AttributeType&$filter=AttributeOf%20eq%20null", true);
+		return new Promise(function (resolve, reject) {
+			var filter="IsValidForAdvancedFind%20eq%20true%20and%20IsCustomizable/Value%20eq%20true";
+			if (onlyActivities!=="All"){
+				filter=filter+"%20and%20IsActivity%20eq%20true"
+			}
+			if (supportsActivities!=="All"){
+				filter=filter+"%20and%20HasActivities%20eq%20true";
+			}
+			req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions?$select=LogicalName,DisplayName&$filter="+filter, true);
 			req.onreadystatechange = function () {
 				
 				if (req.readyState !== 4) return;
@@ -350,4 +348,5 @@ export class MultipleAttributes implements ComponentFramework.StandardControl<II
 			req.send();
 		});
 	}
+
 }

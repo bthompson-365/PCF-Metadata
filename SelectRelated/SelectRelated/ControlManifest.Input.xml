@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="SelectRelated" version="0.0.1" display-name-key="SelectRelated" description-key="SelectRelated description" control-type="standard">
-    <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
-     <property name="FormEntity" display-name-key="FormEntity" description-key="The name of the Entity this query will be displayed on" of-type="SingleLine.Text" usage="bound" required="true" />
-     <property name="QueryEntity" display-name-key="QueryEntity" description-key="The name of the Entity being queried" of-type="SingleLine.Text" usage="bound" required="true" />
+  <control namespace="hdn" constructor="SelectRelated" version="0.0.1" display-name-key="Select Related" description-key="A control to allow you to choose between multiple lookup attributes that connect to a particular entity" control-type="standard">
+    <property name="Attribute" display-name-key="Lookup" description-key="The name of the Lookup field that will be used." of-type="SingleLine.Text" usage="bound" required="true" />
+     <property name="FormEntity" display-name-key="Form Entity" description-key="The name of the Entity this query will be displayed on" of-type="SingleLine.Text" usage="bound" required="true" />
+     <property name="QueryEntity" display-name-key="Query Entity" description-key="The name of the Entity being queried" of-type="SingleLine.Text" usage="bound" required="true" />
    
     <resources>
       <code path="index.ts" order="1"/>

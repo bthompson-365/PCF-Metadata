@@ -61,13 +61,13 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		var activities=context.parameters.activitiesOnly.raw || "";
-		
+		var activities=context.parameters.activitiesOnly.raw || "All";
+		var supportsActivities=context.parameters.supportsActivities.raw || "All";
 		this.isDisabled=this.context.mode.isControlDisabled;
 		if (this.firstRun){
 			this.currentValue=context.parameters.logicalName.raw||"";
 			this.firstRun=false;
-			this.populateDropdown(activities);
+			this.populateDropdown(activities,supportsActivities);
 		}		
 	}
 
@@ -92,15 +92,15 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 		// Add code to cleanup control if necessary
 	}
 
-	private async populateDropdown(showActivities: string) {
+	private async populateDropdown(onlyActivities: string, supportsActivities:string) {
 
 		let selectOption = document.createElement("option");
-		var a = await this.getEntities(showActivities);
+		var a = await this.getEntities(onlyActivities,supportsActivities);
 		var result = JSON.parse(a);
 		var options: IDropdownOption[]=[];
 		
 		for (var i = 0; i < result.value.length; i++) {
-			if (result.value[i].DisplayName != null && result.value[i].DisplayName.UserLocalizedLabel != null) {
+			if (result.value[i].DisplayName !== null && result.value[i].DisplayName.UserLocalizedLabel !== null) {
 				var text = result.value[i].DisplayName.UserLocalizedLabel.Label + " (" + result.value[i].LogicalName + ")";
 				var option: IDropdownOption = { key: result.value[i].LogicalName, text: text }
 				options.push(option);
@@ -111,7 +111,7 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 	
 		// sort the items into alphabetical order by text.
 		options.sort((a, b) => a.text.localeCompare(b.text));
-		if (options.length==1){
+		if (options.length===1){
 			this.currentValue=options[0].key;
 		}
 
@@ -137,7 +137,7 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 			selectOption.innerHTML = options[i].text;
 			selectOption.value = options[i].key;
 
-			if (this.currentValue != null &&
+			if (this.currentValue !== null &&
 				this.currentValue === options[i].key) {
 					selectOption.selected = true;
 			//	valueWasChanged = false;
@@ -148,14 +148,17 @@ export class SelectEntity implements ComponentFramework.StandardControl<IInputs,
 		this.comboBoxControl.disabled=this.isDisabled;	
 	}
 
-	private async getEntities(showActivities: string):Promise<string> {
+	private async getEntities(onlyActivities: string, supportsActivities:string):Promise<string> {
 		var req = new XMLHttpRequest();
 		var baseUrl=this.baseUrl;
 
 		return new Promise(function (resolve, reject) {
 			var filter="IsValidForAdvancedFind%20eq%20true%20and%20IsCustomizable/Value%20eq%20true";
-			if (showActivities!==""){
-				filter=filter+"%20and%20IsActivity%20eq%20true"
+			if (onlyActivities!=="All"){
+				filter=filter+"%20and%20IsActivity%20eq%20true";
+			}
+			if (supportsActivities!=="All"){
+				filter=filter+"%20and%20HasActivities%20eq%20true";
 			}
 			req.open("GET", baseUrl + "/api/data/v9.1/EntityDefinitions?$select=LogicalName,DisplayName&$filter="+filter, true);
 			req.onreadystatechange = function () {

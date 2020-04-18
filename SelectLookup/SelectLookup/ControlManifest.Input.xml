@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="SelectLookup" version="0.0.1" display-name-key="SelectLookup" description-key="SelectLookup description" control-type="standard">
+  <control namespace="hdn" constructor="SelectLookup" version="0.0.1" display-name-key="Select Lookup" description-key="A select control to choose a lookup attribute within an entity." control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-   <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
-   <property name="Entity" display-name-key="Entity" description-key="The name or field Name of the Entity we are displaying the lookups of." of-type="SingleLine.Text" usage="input" required="false" />  
+   <property name="Attribute" display-name-key="Lookup" description-key="Lookup (single)" of-type="SingleLine.Text" usage="bound" required="true" />
+   <property name="Entity" display-name-key="Entity" description-key="The name or field Name of the Entity we are displaying the lookups of." of-type="SingleLine.Text" usage="input" required="true" />  
 
     <resources>
       <code path="index.ts" order="1"/>
