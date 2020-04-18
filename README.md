@@ -5,7 +5,7 @@ This is a set of PCF (Power Component Framework) controls to provide user friend
 
 There were built to improve and remove the complex javascript that we used to need on the administration forms that we use across a number of our solutions and are shared here to ensure other people do not need to waste time rewriting similar logic.
 
-If you do not wish to compile the controls manually you can download an [unmanaged solution](./MetaDataSelectPCF_1_0_0_1.zip)
+If you do not wish to compile the controls manually you can download an [unmanaged solution](./HoudiniMetaData.zip) or [managed solution](./HoudiniMetaData_Managed.zip) 
 
 <h3> The controls</h3>
 The solution contains the following controls:-
