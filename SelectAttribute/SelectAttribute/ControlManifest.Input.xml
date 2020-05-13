@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="hdn" constructor="SelectAttribute" version="0.0.1" display-name-key="Select Attribute" description-key="Select Attribute from the specified entity" control-type="standard">
+  <control namespace="hdn" constructor="SelectDateTimeAttribute" version="0.0.1" display-name-key="Select Datetime Attribute" description-key="Select Datetime Attribute from the specified entity" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
      <property name="Attribute" display-name-key="Attribute" description-key="Attribute (single)" of-type="SingleLine.Text" usage="bound" required="true" />
   <property name="Entity" display-name-key="Entity" description-key="The name or field Name of the Entity we are displaying the attributes." of-type="SingleLine.Text" usage="input" required="true" />  
+  <property name="allowedTypes" display-name-key="AllowedType" description-key="Define the allowed attribute type" of-type="Enum" usage="input" required="true" default-value="All">
+      <value name="all" display-name-key="All">All</value>
+      <value name="boolean" display-name-key="Boolean">Boolean</value>
+      <value name="customer" display-name-key="Customer">Customer</value>
+      <value name="dateTime" display-name-key="DateTime">DateTime</value>
+      <value name="decimal" display-name-key="Decimal">Decimal</value>
+      <value name="double" display-name-key="Double">Double</value>
+      <value name="integer" display-name-key="Integer">Integer</value>
+      <value name="memo" display-name-key="Memo">Memo</value>
+      <value name="money" display-name-key="Money">Money</value>
+      <value name="owner" display-name-key="Owner">Owner</value>
+      <value name="partyList" display-name-key="PartyList">PartyList</value>
+      <value name="picklist" display-name-key="Picklist">Picklist</value>
+      <value name="state" display-name-key="State">State</value>
+      <value name="status" display-name-key="Status">Status</value>
+      <value name="string" display-name-key="String">String</value>
+      <value name="uniqueidentifier" display-name-key="Uniqueidentifier">Uniqueidentifier</value>
+      <value name="calendarRules" display-name-key="CalendarRules">CalendarRules</value>
+      <value name="virtual" display-name-key="Virtual">Virtual</value>
+      <value name="bigInt" display-name-key="BigInt">BigInt</value>
+      <value name="managedProperty" display-name-key="ManagedProperty">ManagedProperty</value>
+      <value name="entityName" display-name-key="EntityName">EntityName</value>
+
+</property>
+ 
    <resources>
       <code path="index.ts" order="1"/>
       <css path="css/AttributeList.css" order="1" />
       <img path="img/DownArrowTransparent.png" />
       <img path="img/DownArrowTransparent2.png" />
-      
     </resources>
    
   </control>
