@@ -2,8 +2,8 @@
 <manifest>
   <control namespace="hdn" constructor="SelectRelationship" version="0.0.1" display-name-key="Select Relationship" description-key="Select the relationship between 2 entities" control-type="standard">
        <property name="Attribute" display-name-key="Lookup" description-key="The name of the Lookup field that will be used." of-type="SingleLine.Text" usage="bound" required="true" />
-     <property name="FormEntity" display-name-key="Form Entity" description-key="The name of the Entity this query will be displayed on" of-type="SingleLine.Text" usage="bound" required="true" />
-     <property name="QueryEntity" display-name-key="Query Entity" description-key="The name of the Entity being queried" of-type="SingleLine.Text" usage="bound" required="true" />
+     <property name="FormEntity" display-name-key="Form Entity" description-key="The name of the Entity this query will be displayed on" of-type="SingleLine.Text" usage="input" required="true" />
+     <property name="QueryEntity" display-name-key="Query Entity" description-key="The name of the Entity being queried" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="SchemaName" display-name-key="Schema Name" description-key="The name of the Relationship used by the Lookup" of-type="SingleLine.Text" usage="bound" required="false" />
     <resources>
       <code path="index.ts" order="1"/>

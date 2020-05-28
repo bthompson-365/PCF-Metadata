@@ -88,8 +88,6 @@ export class SelectRelationship implements ComponentFramework.StandardControl<II
 	{
 		return {
 			Attribute:this.currentValue,
-			FormEntity:this.formEntity,
-			QueryEntity:this.queryEntity,
 			SchemaName:this.schemaName
 		}
 	}
