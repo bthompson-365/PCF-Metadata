@@ -15,6 +15,7 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 	}
 	private notifyOutputChanged: () => void;
 	private currentValue: string | undefined;
+	private allowedTypes : string;
 	entity:string="";
 	container:HTMLDivElement;
 	baseUrl:string;
@@ -48,7 +49,11 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
         this.comboBoxControl.addEventListener("mouseleave", this.onMouseLeave.bind(this));
 		this.comboBoxControl.addEventListener("click", this.onClick.bind(this));
         comboBoxContainer.appendChild(this.comboBoxControl);
-        container.appendChild(comboBoxContainer);  
+		container.appendChild(comboBoxContainer);  
+		
+		if(context.parameters.allowedTypes.raw != null){
+			this.allowedTypes = context.parameters.allowedTypes.raw;
+		}
 	}
 	
 	/**
@@ -125,7 +130,10 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 			// format all the options into a usable record
 			for (var i = 0; i < result.value.length; i++) {
 				
-				if (result.value[i].DisplayName !== null && result.value[i].DisplayName.UserLocalizedLabel !== null) {
+				if (result.value[i].DisplayName !== null && 
+					result.value[i].DisplayName.UserLocalizedLabel !== null && 
+					this.isAllowedType(result.value[i].AttributeType)) {
+					
 					var text = result.value[i].DisplayName.UserLocalizedLabel.Label + " (" + result.value[i].LogicalName + ")";
 					var option: IDropdownOption = { key: result.value[i].LogicalName, text: text }
 					options.push(option);
@@ -167,6 +175,14 @@ export class SelectAttribute implements ComponentFramework.StandardControl<IInpu
 			}
 		}		
 		this.comboBoxControl.disabled=this.isDisabled;		
+	}
+
+	private isAllowedType(type: string): boolean{
+		if(this.allowedTypes === "All"){
+			return true;
+		}else{
+			return this.allowedTypes.indexOf(type) > -1
+		}
 	}
 
 	private async getAttributes(entity: string):Promise<string> {
