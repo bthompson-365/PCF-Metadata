@@ -126,7 +126,9 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 			// format all the options into a usable record
 			
 			for (i = 0; i < result.value.length; i++) {
-				if (result.value[i].name !== null ) {
+				debugger;
+				if (result.value[i].name !== null && 
+					!result.value[i].savedqueryid.contains("000000") ) {
 					
 					var option = {
 					key: result.value[i].name + " (" + result.value[i].savedqueryid + ")",
@@ -137,10 +139,7 @@ export class SelectView implements ComponentFramework.StandardControl<IInputs, I
 			}
 			
 			// sort the items into alphabetical order by text.
-			options.sort((a, b) => a.text.localeCompare(b.text));
-			
-			// populate the select option box.
-
+			options.sort((a, b) => a.text.localeCompare(b.text));			
 			// firstly remove all existing options.
 			for(var i = this.comboBoxControl.options.length - 1 ; i >= 0 ; i--)
 			{
